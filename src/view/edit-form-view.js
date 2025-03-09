@@ -1,6 +1,6 @@
 import { DATE_FORMAT } from '../const.js';
-import { createElement } from '../render.js';
 import { formateDate } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createEditFormTemplate(point, destinations, offers) {
   const {basePrice, dateFrom, dateTo, type} = point;
@@ -126,25 +126,30 @@ function createEditFormTemplate(point, destinations, offers) {
               </form>`;
 }
 
-export default class EditForm {
-  constructor(point, destinations, offers) {
-    this.point = point;
-    this.destinations = destinations;
-    this.offers = offers;
+export default class EditForm extends AbstractView {
+  #point;
+  #destinations;
+  #offers;
+  #handleSumbit;
+
+  constructor(point, destinations, offers, onFormSubmit) {
+    super();
+    this.#point = point;
+    this.#destinations = destinations;
+    this.#offers = offers;
+    this.#handleSumbit = onFormSubmit;
+
+    this.element.addEventListener('submit', this.#handleSumbit);
+    //В будущем добавить отдельную функцию для кнопки вверх, т.к. она не отправляет данные
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#handleSumbit);
   }
 
-  getTemplate() {
-    return createEditFormTemplate(this.point, this.destinations, this.offers);
+  get template() {
+    return createEditFormTemplate(this.#point, this.#destinations, this.#offers);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  // #submitHandler = (evt) => {
+  //   evt.preventDefault();
+  //   this.#handleSumbit();
+  // };
 }
