@@ -1,4 +1,4 @@
-import { render } from './render.js';
+import { render, RenderPosition } from './framework/render.js';
 import Sort from '../src/view/sort-view.js';
 import Filters from '../src/view/filters-view.js';
 import Presenter from './presenter/main-presenter.js';
@@ -18,7 +18,7 @@ pointsModel.init();
 destinationsModel.init();
 offersModel.init();
 
-render(new TripInfo(), tripMainContainer, 'afterbegin');
+render(new TripInfo(), tripMainContainer, RenderPosition.AFTERBEGIN);
 render(new Filters(), filtersContainer);
 render(new Sort(), eventsContainer);
 
