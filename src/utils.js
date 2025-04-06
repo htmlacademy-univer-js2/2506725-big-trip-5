@@ -28,4 +28,10 @@ const isPointFuture = (point) => dayjs().isBefore(dayjs(point.dateFrom));
 
 const isPointPresent = (point) => dayjs().isAfter(dayjs(point.dateFrom)) && dayjs().isBefore(dayjs(point.dateTo));
 
-export {formateDate, getDuration, isPointFuture, isPointPast, isPointPresent};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+function updateItem(items, update) {
+  return items.map((item) => item.id === update.id ? update : item);
+}
+
+export {formateDate, getDuration, isPointFuture, isPointPast, isPointPresent, isEscapeKey, updateItem};
