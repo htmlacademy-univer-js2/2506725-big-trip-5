@@ -85,7 +85,7 @@ export default class PointPresenter {
   }
 
   #onEscKeyDownClose = (evt) => {
-    if (isEscapeKey) {
+    if (isEscapeKey()) {
       evt.preventDefault();
       this.#replaceEditForm();
       document.removeEventListener('keydown', this.#onEscKeyDownClose);
