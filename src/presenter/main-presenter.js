@@ -2,7 +2,6 @@ import {generateFilters} from '../mock/filters.js';
 import Filters from '../view/filters-view.js';
 import PointsList from '../view/points-list-view.js';
 import { render } from '../framework/render.js';
-import Sort from '../view/sort-view.js';
 import { updateItem } from '../utils.js';
 import PointsPresenter from './points-presenter.js';
 
@@ -32,7 +31,6 @@ export default class Presenter {
   }
 
   renderPage() {
-    this.#renderSort();
     this.#renderFilters();
 
     render(this.#pointsListViewComponent, this.#eventsContainer);
@@ -54,10 +52,6 @@ export default class Presenter {
     this.points = updateItem(this.points, updatedPoint);
     this.#pointsPresenter.updatePoint(updatedPoint);
   };
-
-  #renderSort() {
-    render(new Sort(), this.#eventsContainer);
-  }
 
   #renderFilters() {
     const filters = generateFilters(this.points);
