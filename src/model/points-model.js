@@ -1,14 +1,29 @@
-import {getRandomPoint} from '../mock/points.js';
+import { UpdateType } from '../const.js';
 import Observable from '../framework/observable.js';
 import dayjs from 'dayjs';
 
-const POINT_COUNT = 2;
 
 export default class PointsModel extends Observable{
-  #points = Array.from({ length: POINT_COUNT }, getRandomPoint);
+  #pointsApiService = null;
+  #points = [];
+
+  constructor({pointsApiService}) {
+    super();
+    this.#pointsApiService = pointsApiService;
+  }
 
   get points() {
     return this.#points;
+  }
+
+  async init() {
+    try {
+      const points = await this.#pointsApiService.points;
+      this.#points = points.map(this.#adaptToClient);
+    } catch (error) {
+      this.#points = [];
+    }
+    this._notify(UpdateType.INIT);
   }
 
   get newPoint() {
@@ -24,26 +39,27 @@ export default class PointsModel extends Observable{
     };
   }
 
+  async updatePoint(updateType, update) {
+    try {
+      const response = await this.#pointsApiService.updatePoint(update);
+      const updatedPoint = this.#adaptToClient(response);
+
+      this.#points = this.#points.map((point) =>
+        point.id === updatedPoint.id
+          ? updatedPoint
+          : point
+      );
+
+      this._notify(updateType, updatedPoint);
+    } catch (error) {
+      throw new Error('Can\'t update point');
+    }
+  }
+
   addPoint(updateType, update) {
     this.#points = [
       update,
       ...this.#points,
-    ];
-
-    this._notify(updateType, update);
-  }
-
-  updatePoint(updateType, update) {
-    const index = this.#points.findIndex((point) => point.id === update.id);
-
-    if (index === -1) {
-      throw new Error('Can\'t update unexisting task');
-    }
-
-    this.#points = [
-      ...this.#points.slice(0, index),
-      update,
-      ...this.#points.slice(index + 1),
     ];
 
     this._notify(updateType, update);
@@ -62,5 +78,21 @@ export default class PointsModel extends Observable{
     ];
 
     this._notify(updateType, update);
+  }
+
+  #adaptToClient(point) {
+    const adaptedPoint = {...point,
+      basePrice: point['base_price'],
+      dateFrom: point['date_from'],
+      dateTo: point['date_to'],
+      isFavorite: point['is_favorite'],
+    };
+
+    delete adaptedPoint['base_price'];
+    delete adaptedPoint['date_from'];
+    delete adaptedPoint['date_to'];
+    delete adaptedPoint['is_favorite'];
+
+    return adaptedPoint;
   }
 }
