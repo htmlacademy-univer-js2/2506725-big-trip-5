@@ -1,6 +1,6 @@
 import ApiService from './framework/api-service.js';
 
-const Method = {
+const METHOD = {
   GET: 'GET',
   PUT: 'PUT',
   POST: 'POST',
@@ -26,14 +26,37 @@ export default class PointsApiService extends ApiService {
   async updatePoint(point) {
     const response = await this._load({
       url: `points/${point.id}`,
-      method: Method.PUT,
+      method: METHOD.PUT,
       body: JSON.stringify(this.#adaptToServer(point)),
-      headers: new Headers({'Content-Type': 'application/json'}),
+      headers: new Headers({'Content-Type': 'application/json', 'Authorization': `${this._authorization}`}),
     });
 
     const parsedResponse = await ApiService.parseResponse(response);
 
     return parsedResponse;
+  }
+
+  async addPoint(point) {
+    delete point.id;
+    const response = await this._load({
+      url: 'points',
+      method: METHOD.POST,
+      body: JSON.stringify(this.#adaptToServer(point)),
+      headers: new Headers({ 'Content-Type': 'application/json', 'Authorization': `${this._authorization}`}),
+    });
+
+    const parsedResponse = await ApiService.parseResponse(response);
+
+    return parsedResponse;
+  }
+
+  async deletePoint(point) {
+    const response = await this._load({
+      url: `points/${point.id}`,
+      method: METHOD.DELETE,
+    });
+
+    return response;
   }
 
   #adaptToServer(point) {

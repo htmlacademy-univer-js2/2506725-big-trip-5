@@ -51,12 +51,12 @@ export function sortPointsByPrice(pointA, pointB) {
   return pointB.basePrice - pointA.basePrice;
 }
 
-export function createEventTypeItems(pointTypes, currentType) {
-  return pointTypes.map((type) => `<div class="event__type-item">
-  <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${currentType === type ? 'checked' : ''}>
-  <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${(type)[0].toUpperCase() + (type).slice(1)}</label>
-</div>`).join('');
-}
+// export function createEventTypeItems(pointTypes, currentType) {
+//   return pointTypes.map((type) => `<div class="event__type-item">
+//   <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${currentType === type ? 'checked' : ''}>
+//   <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${(type)[0].toUpperCase() + (type).slice(1)}</label>
+// </div>`).join('');
+// }
 
 export const filter = {
   [FILTERS_TYPE.EVERYTHING]: (points) => [...points],

@@ -20,6 +20,7 @@ const pointsModel = new PointsModel({pointsApiService});
 const destinationsModel = new DestinationModel({pointsApiService});
 const offersModel = new OffersModel({pointsApiService});
 const filterModel = new FilterModel();
+
 pointsModel.init();
 destinationsModel.init();
 offersModel.init();

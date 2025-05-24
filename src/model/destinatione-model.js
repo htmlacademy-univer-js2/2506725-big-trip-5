@@ -10,7 +10,6 @@ export default class DestinationModel extends Observable {
     this.#pointsApiService = pointsApiService;
   }
 
-
   async init() {
     try {
       this.#destinations = await this.#pointsApiService.destinations;
