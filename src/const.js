@@ -7,9 +7,36 @@ export const DATE_FORMAT = {
   'full-date-and-time-slash': 'DD/MM/YYYY HH:mm'
 };
 export const SORT_TYPE = {
-  DAY: 'day',
-  TIME: 'time',
-  PRICE: 'price'
+  DAY:
+  {
+    text: 'day',
+    isDisabled: false,
+    isChecked: true
+  },
+  EVENT:
+  {
+    text: 'event',
+    isDisabled: true,
+    isChecked: false
+  },
+  TIME:
+  {
+    text: 'time',
+    isDisabled: false,
+    isChecked: false
+  },
+  PRICE:
+  {
+    text: 'price',
+    isDisabled: false,
+    isChecked: false
+  },
+  OFFER:
+  {
+    text: 'offer',
+    isDisabled: true,
+    isChecked: false
+  }
 };
 
 export const FILTERS_TYPE = {
@@ -42,4 +69,9 @@ export const NO_POINT_MESSAGES = {
   PAST: 'There are no past events now',
   PRESENT: 'There are no present events now',
   FUTURE: 'There are no future events now'
+};
+
+export const MODE = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
 };

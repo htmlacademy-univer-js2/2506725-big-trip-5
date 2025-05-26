@@ -68,3 +68,19 @@ export const filter = {
 export function isDatesEqual(dateA, dateB) {
   return (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
 }
+
+export const getCurrentDate = (date) => dayjs(date).format('DD MMM');
+
+export const getOffersByType = (type, offers) => offers.find((offer) => offer.type === type)?.offers || [];
+
+export const getPriceWithoutOffers = (points) => points.reduce((sum, price) => sum + price.basePrice, 0);
+
+export const getDestination = (id, destinations) => destinations.find((destination) => destination.id === id);
+
+export const getPointOffersPrice = (point, allOffers) => {
+  const pointOffers = getOffersByType(point.type, allOffers);
+  const includesPointOffers = pointOffers.filter((offers) => point.offers.includes(offers.id));
+  return includesPointOffers.reduce((sum, currentPoint) => sum + currentPoint.price, 0);
+};
+
+export const convertDateToISO = (date) => dayjs(date).toISOString();
