@@ -90,7 +90,7 @@ export default class Presenter {
       return;
     }
 
-    if (this.points.includes('error') || !this.#destinationsModel.destinations || !this.#offersModel.offers) {
+    if (this.points.includes('error') || this.#destinationsModel.destinations.length === 0 || this.#offersModel.offers.length === 0) {
       this.#renderError();
       return;
     }
@@ -109,6 +109,7 @@ export default class Presenter {
     this.#newPointPresenter.init();
 
     remove(this.#noPointComponent);
+    this.#noPointComponent = null;
   }
 
   #handleModeChange = () => {
@@ -199,6 +200,7 @@ export default class Presenter {
     this.#renderSort();
 
     remove(this.#noPointComponent);
+    this.#noPointComponent = null;
 
     this.points.forEach((point) => {
       this.#renderPoint(point);
@@ -225,6 +227,7 @@ export default class Presenter {
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
+      this.#noPointComponent = null;
     }
 
     if (resetSortType) {
