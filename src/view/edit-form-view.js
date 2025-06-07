@@ -114,10 +114,10 @@ function createEditFormTemplate(point, destinations, offers, isCreating) {
 
                   <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${isCreating ? '' : startDate} ${isDisabled ? 'disabled' : ''}">
+                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${startDate} ${isDisabled ? 'disabled' : ''}">
                     &mdash;
                     <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${isCreating ? '' : endDate} ${isDisabled ? 'disabled' : ''}">
+                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${endDate} ${isDisabled ? 'disabled' : ''}">
                   </div>
 
                   <div class="event__field-group  event__field-group--price">
@@ -255,14 +255,21 @@ export default class EditForm extends AbstractStatefulView {
   #setDatepicker() {
     const [dateStartElement, dateEndElement] = this.element.querySelectorAll('.event__input--time');
 
+    if (!this._state.dateFrom) {
+      dateStartElement.value = '';
+    }
+    if (!this._state.dateTo) {
+      dateEndElement.value = '';
+    }
+
     this.#datepickerStart = flatpickr(
       dateStartElement, {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
         locale: { firstDayOfWeek: 1 },
         'time_24hr': true,
-        defaultDate: this.#isCreating ? '' : this._state.dateFrom,
-        onChange: this.#changeStartDateHandler,
+        defaultDate: this._state.dateFrom || undefined,
+        onChange: this.#changeStartDateHandler
       });
     this.#datepickerEnd = flatpickr(
       dateEndElement, {
@@ -270,9 +277,9 @@ export default class EditForm extends AbstractStatefulView {
         enableTime: true,
         locale: { firstDayOfWeek: 1 },
         'time_24hr': true,
-        defaultDate: this.#isCreating ? '' : this._state.dateTo,
-        minDate: this._state.dateFrom || '',
-        onChange: this.#changeEndDateHandler
+        defaultDate: this._state.dateTo || undefined,
+        onChange: this.#changeEndDateHandler,
+        minDate: this._state.dateFrom || undefined
       });
   }
 
@@ -285,7 +292,6 @@ export default class EditForm extends AbstractStatefulView {
   #changeEndDateHandler = ([newDate]) => {
     const isoFormatDate = convertDateToISO(newDate);
     this._setState({dateTo: isoFormatDate});
-    this.#datepickerEnd.set('maxDate', isoFormatDate);
   };
 
   static parsePointToState(point) {
