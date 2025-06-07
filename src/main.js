@@ -15,7 +15,7 @@ const pointsApiService = new PointsApiService(END_POINT, AUTHORIZATION);
 
 const filtersContainer = document.body.querySelector('.trip-controls__filters');
 const eventsContainer = document.body.querySelector('.trip-events');
-const siteHeaderElement = document.body.querySelector('.trip-main');
+const siteHeaderContainer = document.body.querySelector('.trip-main');
 
 const pointsModel = new PointsModel({pointsApiService});
 const destinationsModel = new DestinationModel({pointsApiService});
@@ -24,7 +24,7 @@ const filterModel = new FilterModel();
 
 const presenter = new Presenter({
   eventsContainer: eventsContainer,
-  tripInfoContainer: siteHeaderElement,
+  tripInfoContainer: siteHeaderContainer,
   pointsModel: pointsModel,
   destinationsModel: destinationsModel,
   offersModel: offersModel,
@@ -65,5 +65,5 @@ Promise.all([
 }).catch(() => {
   remove(loadingComponent);
 }).finally(() => {
-  render(newPointButtonComponent, siteHeaderElement);
+  render(newPointButtonComponent, siteHeaderContainer);
 });

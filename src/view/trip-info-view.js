@@ -1,3 +1,4 @@
+import { MAX_DESTINATIONS_COUNT } from '../const.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import { getCurrentDate, getDestination, getPointOffersPrice, getPriceWithoutOffers, sortPointsByDate } from '../utils.js';
 
@@ -13,7 +14,7 @@ function getPrice(points, offers) {
 
 function getDestinationMarkup(destinations, points) {
   const names = points.map((point) => getDestination(point.destination, destinations)?.name);
-  return names.length <= 3 ? names.join(' - ') : `${names[0]} ... ${names[names.length - 1]}`;
+  return names.length <= MAX_DESTINATIONS_COUNT ? names.join(' - ') : `${names[0]} ... ${names[names.length - 1]}`;
 }
 
 function createTripInfoTemplate(points, destinations, offers) {
