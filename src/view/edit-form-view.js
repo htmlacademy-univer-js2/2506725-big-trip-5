@@ -103,6 +103,7 @@ function createEditFormTemplate(point, destinations, offers, isCreating) {
                     </label>
                     <input class="event__input  event__input--destination"
                     id="event-destination-1" type="text" name="event-destination"
+                    autocomplete="off"
                     value="${editFormPointDestination?.name || ''}" list="destination-list-1"
                     onfocus="this.value=null;"
                     onchange="this.blur();"
